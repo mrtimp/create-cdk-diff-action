@@ -23,13 +23,18 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
-        
+
+      - name: Configure Node.js
+        uses: actions/setup-node@v4
+        with:
+            cache: 'npm'
+            node-version: 18
+
       - name: CDK diff
-        run: |
-          cdk diff --progress=events &> >(tee cdk.log)
+        run: npx cdk diff --progress=events &> >(tee cdk.log)
 
       - name: CDK Notifier
-        uses: te-whatunga-kapua/create-cdk-diff-action@v2
+        uses: mrtimp/create-cdk-diff-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
