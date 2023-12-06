@@ -1,0 +1,35 @@
+name: 'CDK Diff'
+description: 'Parse a CDK log file and post changes to pull request requests.'
+branding:
+  icon: git-pull-request
+  color: green
+inputs:
+  delete:
+    description: 'Delete comments when no changes are detected for a specific tag id (default true)'
+    required: false
+    default: 'true'
+  log-file:
+    description: 'Path to cdk log file'
+    required: false
+    default: './cdk.log'
+  tag-id:
+    description: 'Unique identifier for stack within pipeline (default "stack")'
+    required: false
+    default: 'stack'
+  template:
+    description: 'Template to use for comment [default|extended|extendedWithResources] (default "default")'
+    required: false
+    default: 'default'
+  verbosity:
+    description: 'Log level (debug, info, warn, error, fatal, panic) (default "info")'
+    required: false
+    default: 'info'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.delete }}
+    - ${{ inputs.log-file }}
+    - ${{ inputs.tag-id }}
+    - ${{ inputs.template }}
+    - ${{ inputs.verbosity }}
