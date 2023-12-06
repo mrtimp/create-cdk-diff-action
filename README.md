@@ -30,6 +30,9 @@ jobs:
             cache: 'npm'
             node-version: 18
 
+      - name: Install CDK dependencies
+        run: npm install
+
       - name: CDK diff
         run: npx cdk diff --progress=events &> >(tee cdk.log)
 
